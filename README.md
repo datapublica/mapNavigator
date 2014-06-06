@@ -1,6 +1,8 @@
 MapNavigator
 ============
 
+Example: [http://datapublica.github.io/mapNavigator/map_sample_dev.html]
+
 This library can be used to : 
 
 * display choropleth maps (maps with color on the zones depending on a value)
