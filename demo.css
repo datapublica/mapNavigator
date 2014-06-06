@@ -1,0 +1,17 @@
+body {
+    background: #FFF;
+    color: #eee;
+    font: 300 100.1% "Helvetica Neue", Helvetica, "Arial Unicode MS", Arial, sans-serif;
+}
+#holder1 {
+    height: 340px;
+    width: 600px;
+}
+#holder2 {
+    height: 340px;
+    width: 600px;
+}
+#holder3 {
+    height: 340px;
+    width: 600px;
+}
