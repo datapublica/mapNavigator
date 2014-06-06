@@ -9,7 +9,7 @@ This library can be used to :
 
  Choropleth | Pie maps | Navigation
 :----------:|:--------:|:----------:
-![choropleth](https://raw.githubusercontent.com/datapublica/mapNavigator/master/doc/choropleth.png) | ![choropleth](https://raw.githubusercontent.com/datapublica/mapNavigator/master/doc/map.png) | ![choropleth](https://raw.githubusercontent.com/datapublica/mapNavigator/master/doc/navig.png) 
+![choropleth](https://raw.githubusercontent.com/datapublica/mapNavigator/master/doc/choropleth.png) | ![pie](https://raw.githubusercontent.com/datapublica/mapNavigator/master/doc/pie.png) | ![navig](https://raw.githubusercontent.com/datapublica/mapNavigator/master/doc/navig.png) 
 
 
 Methods
@@ -114,17 +114,7 @@ value.txt.fill	| '#AAA' | text color on map
 area.defaultColor	| |	map area default color
 area.backgroundColor	| | 	map external background color
 area.lineColor | |	 	map line color
-area.label |	true	| display the label on the map ```
-            txt : {
-
-                font : '12px Arial,Helvetica',
-
-                fill : '#AAA'
-
-            },
-
-            padding : 5 // i
-            ```
+area.label |	true	| display the label on the map txt : { font : '12px Arial,Helvetica', fill : '#AAA' }, padding : 5 // i 
 area.labelDraggable	| true |	can reposition label on map
 area.onclick |	function(zone, holder) |	callback fonction when clicking on map (the 2nd arg is the given holder when instanciating MapNavigator object)
 area.canclick	| function(zone) |	if we can click on a zone
