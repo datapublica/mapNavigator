@@ -110,6 +110,8 @@ value.display | true | Display the value on the map
 value.tooltip.enabled	| false |	Display a tooltip for the values (on zone for choropleth and on pie sectors for pie charts)
 value.tooltip.formater |  function(zoneName, label, value, percent) | Tooltip formatter
 value.tooltip.backgroundColor |	white |	tooltip background color
+value.tooltip.x | | if set, fix the tooltip on the x-axis (0 = left)
+value.tooltip.y | | if set, fix the tooltip on the y-axis (0 = bottom)
 value.tooltip.font | '11px Arial,Helvetica'	| ?
 value.txt.font | 'bold 12px Arial,Helvetica' | value text on map
 value.txt.fill	| '#AAA' | text color on map
