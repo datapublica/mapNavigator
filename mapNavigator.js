@@ -21,8 +21,8 @@ MapNavigator = function (holder, options) {
       display: true,
       tooltip: {
         enabled: false,
-        x: 0,
-        y: 0,
+        x: -1,
+        y: -1,
         formater: function (zoneName, label, value, percent) {
           var lbl = (label == null) ? "" : (label + "<br/>");
           var pct = (percent == null) ? "" : (" (" + Math.round(percent) + "%)");
@@ -314,8 +314,8 @@ MapNavigator.prototype.draw = function(zones, data) {
               var x = config.value.tooltip.x;
               var y = config.value.tooltip.y;
               popup.css({
-                left: (x > 0) ? x : bbox.x2 - (bbox.x2-bbox.x)/2,
-                bottom: (y > 0) ? y : element.height() - bbox.y + 10
+                left: (x > -1) ? x : bbox.x2 - (bbox.x2-bbox.x)/2,
+                bottom: (y > -1) ? y : element.height() - bbox.y + 10
               });
             }
           }
@@ -417,8 +417,8 @@ MapNavigator.prototype.draw = function(zones, data) {
                         var x = config.value.tooltip.x;
                         var y = config.value.tooltip.y;
                         popup.css({
-                            left : (x > 0) ? x : event.pageX - parentOffset.left + 100,
-                            top : (y > 0) ? y : event.pageY - parentOffset.top
+                            left : (x > -1) ? x : event.pageX - parentOffset.left + 20,
+                            top : (y > -1) ? y : event.pageY - parentOffset.top
                         });
                     }
                 });
