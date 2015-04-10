@@ -127,6 +127,7 @@ area.txt.fill	| '#AAA' | 	color of area label
 title.value |	"Map" |	title of the map
 title.txt.font |	'12px Arial,Helvetica', |	font of the title
 title.txt.fill	| '#AAA' | 	color of title
+pie.radiusRatio | 	1 |	In "pie" mode, this will enlarge the pies by the given ratio
 legend.display | 	true |	activates the legend
 series  | `	{ n:4 , colorA:"white", colorB:"blue" }`	| { n:4 , colorA:"white", colorB:"blue" } : on choropleth will automatically compute categories on data: split the data in 2 and define the gradient color { values: [{min:, max:, text: ,color:},...]} : user defined categories on choropleth  { values:[{text:"xxx",color:""},...]: user defined colors for pie sectors (the order of the array is the same as the order of data)   { useGradient: true, colorA:"white", colorB:"blue" } : on choropleth will create a full gradient of the data instead of splitting into categories
 exporting.enabled | true |	to export as image

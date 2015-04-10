@@ -392,6 +392,8 @@ MapNavigator.prototype.draw = function(zones, data) {
     function pieChart(cx, cy, r, values, serieValues, zoneName) {
         var rad = Math.PI / 180, chart = raphael.set();
         function sector(cx, cy, r, startAngle, endAngle, params) {
+            if (startAngle == 0 && endAngle == 360)
+                return raphael.circle(cx, cy, r).attr(params);
             var x1 = cx + r * Math.cos(-startAngle * rad), x2 = cx + r * Math.cos(-endAngle * rad), y1 = cy + r * Math.sin(-startAngle * rad), y2 = cy + r * Math.sin(-endAngle * rad);
             return raphael.path(["M", cx, cy, "L", x1, y1, "A", r, r, 0, +(endAngle - startAngle > 180), 0, x2, y2, "z"]).attr(params);
         }
@@ -412,7 +414,6 @@ MapNavigator.prototype.draw = function(zones, data) {
                     if (!popup.is(":visible")) {
                         popup.show();
                         var parentOffset = p.getBBox();
-                        console.log(p);
                         popup.html(config.value.tooltip.formater(zoneName, serieValues[j].text, value, (value / total * 100)));
                         var x = config.value.tooltip.x;
                         var y = config.value.tooltip.y;
@@ -448,14 +449,14 @@ MapNavigator.prototype.draw = function(zones, data) {
         return chart;
     };
 
-    function drawPies(x, y, areas, seriesValues) {
+    function drawPies(x, y, areas, seriesValues, radiusRatio) {
         // Compute Size of pie: we make this size fixed but we could also make it proportionnal to sum of pie sector values.
         var points = [];
         areas.forEach(function(area) {
             points.push([area.zone.newCenterX, area.zone.newCenterY]);
         });
 
-        var pieRadius = MapNavigator.closestPair(points).distance / 2.1;
+        var pieRadius = MapNavigator.closestPair(points).distance * (radiusRatio || 1) / 2.1;
 
         areas.forEach(function(area) {
             var id = area.zone.id;
@@ -557,7 +558,7 @@ MapNavigator.prototype.draw = function(zones, data) {
     if (this.isChloro()) {
         this.colorZones(this.areas, seriesValues);
     } else {
-        drawPies(mapX, mapY, this.areas, seriesValues);
+        drawPies(mapX, mapY, this.areas, seriesValues, (this.config.pie || {}).radiusRatio);
     }
 
     // Export Icon and export function
