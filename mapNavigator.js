@@ -413,13 +413,13 @@ MapNavigator.prototype.draw = function (zones, data) {
                 p.mouseover(function (event) {
                     if (!popup.is(":visible")) {
                         popup.show();
-                        var parentOffset = p.getBBox();
+                        var bbox = p.getBBox();
                         popup.html(config.value.tooltip.formater(zoneName, serieValues[j].text, value, (value / total * 100)));
                         var x = config.value.tooltip.x;
                         var y = config.value.tooltip.y;
                         popup.css({
-                            left: (x > -1) ? x : event.pageX - parentOffset.left + 20,
-                            top: (y > -1) ? y : event.pageY - parentOffset.top
+                            left: (x > -1) ? x : bbox.x2 - (bbox.x2 - bbox.x) / 2,
+                            bottom: (y > -1) ? y : element.height() - bbox.y + 10
                         });
                     }
                 });
