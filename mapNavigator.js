@@ -156,16 +156,41 @@ MapNavigator.prototype.computeSeries = function (data) {
 
     // if series.useGradient => only one serie with min, max, and function for color
     if (this.config.series.useGradient) {
+        var neutral = this.config.series.colorNeutral;
         if (typeof this.config.series.min == "number" && typeof this.config.series.max == "number") {
             min = this.config.series.min;
             max = this.config.series.max;
         }
-        var f = function (v) {
-            if (v < min) v = min;
-            if (v > max) v = max;
-            var coeff = (v - min) / (max - min);
-            return Raphael.rgb(cA.r + (cB.r - cA.r) * coeff, cA.g + (cB.g - cA.g) * coeff, cA.b + (cB.b - cA.b) * coeff);
-        };
+        var f;
+        if (!neutral) {
+            f = function (v) {
+                if (v < min) v = min;
+                if (v > max) v = max;
+                var coeff = (v - min) / (max - min);
+                return Raphael.rgb(cA.r + (cB.r - cA.r) * coeff, cA.g + (cB.g - cA.g) * coeff, cA.b + (cB.b - cA.b) * coeff);
+            };
+        } else {
+            var valueNeutral = this.config.series.valueNeutral || 0;
+            var spread = Math.max(max-valueNeutral, valueNeutral -min);
+            min = valueNeutral - spread;
+            max = valueNeutral + spread;
+            var cN = Raphael.getRGB(this.config.series.colorNeutral);
+            f = function (v) {
+                if (v < min) v = min;
+                if (v > max) v = max;
+                var coeff, minC, maxC;
+                if (v < valueNeutral) {
+                    minC = cA;
+                    maxC = cN;
+                    coeff = (v - min) / (valueNeutral - min);
+                } else {
+                    minC = cN;
+                    maxC = cB;
+                    coeff = (v - valueNeutral) / (max - valueNeutral);
+                }
+                return Raphael.rgb(minC.r + (maxC.r - minC.r) * coeff, minC.g + (maxC.g - minC.g) * coeff, minC.b + (maxC.b - minC.b) * coeff);
+            };
+        }
         values[0] = {
             min: min,
             max: max,
@@ -242,6 +267,7 @@ MapNavigator.prototype.draw = function (zones, data) {
         var graph = raphael.set();
         // Contains everything
         var labels = raphael.set();
+        var self = this;
         graph.push(areas);
         graph.push(labels);
         for (var i = 0; i < zones.length; i++) {
@@ -331,12 +357,14 @@ MapNavigator.prototype.draw = function (zones, data) {
                 if (config.hover != null) {
                     config.hover(area.zone);
                 }
-                area.animate({"stroke-width": 3}, 200);
+                if (self.highlighted.indexOf(area) < 0)
+                    area.animate({"stroke-width": 3}, 200);
             }, function () {
                 if (config.hover != null) {
                     config.hover(null);
                 }
-                area.animate({"stroke-width": 1}, 200);
+                if (self.highlighted.indexOf(area) < 0)
+                    area.animate({"stroke-width": 1}, 200);
             });
             //
             if (typeof config.area.onclick == 'function') {
@@ -481,7 +509,7 @@ MapNavigator.prototype.draw = function (zones, data) {
         for (var i = 0; i < series.length; i++) {
             var serie = series[i];
             var widthRect = serie.isGradient ? 200 : 10;
-            var c = serie.isGradient ? ("0-" + serie.color(serie.min) + "-" + serie.color(serie.max)) : serie.color;
+            var c = serie.isGradient ? ("0-" + serie.color(serie.min) +"-#ffffff"+ "-" + serie.color(serie.max)) : serie.color;
             this.labels.push(raphael.rect(hMargin, h, widthRect, 10, 1).attr({
                 fill: c,
                 stroke: "none"
